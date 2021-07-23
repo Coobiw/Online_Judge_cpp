@@ -725,6 +725,61 @@ public:
 };
 </code></pre>
 
+<h2>双指针</h2>
+<h3>应用1：用于有序数组</h3>
+<h4>①二分查找</h4>
+<h4>②两数和</h4>
+<h3>应用2：用于数组和字符串的中间一段问题（双指针指示首尾）</h3>
+<h4>例题1：（连续多个字符的字符串删减）</h4>
+<p>给定一个由 n 个小写字母构成的字符串。</p>
+<p>现在，需要删掉其中的一些字母，使得字符串中不存在连续三个或三个以上的 x。</p>
+<p>请问，最少需要删掉多少个字母？</p>
+<p>如果字符串本来就不存在连续的三个或三个以上 x，则无需删掉任何字母。</p>
+<p>输入样例1：</p>
+<p>6</p>
+<p>xxxiii
+输出样例1：</p>
+<p>1</p>
+<p><strong>思想</strong>：</p>
+<p>用索引i遍历字符串</p>
+<p>一个指针找这一段字符串的第一个x，然后另一个指针找这一段字符串的最后一个x；便可计算x的数量进行删减。</p>
+<p>之后i跳到最后一个x之后避免重复查找即可。</p>
+<p><strong>代码：</strong></p>
+<pre><code>#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;cstring&gt;
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin&gt;&gt;n;
+
+    string str;
+    cin&gt;&gt;str;
+
+    int p1=0;
+    int p2=0;
+    int result=0;
+
+    for(int i=0;i&lt;n;i++)
+    {
+        if(str[i]=='x')
+        {
+            p1=i;
+            p2=p1;
+            while(str[p1]=='x')p1++;
+            if(p1-p2&gt;2)result+=p1-p2-2;
+            i=p1;
+        }
+    }
+
+    cout&lt;&lt;result&lt;&lt;endl;
+}
+</code></pre>
+
 
 </body>
 </html>
