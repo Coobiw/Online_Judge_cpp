@@ -84,9 +84,15 @@ map<key的数据类型，value的数据类型> 映射表名
 
 清空：clear()
 
-查找：find(key)
+查找：
+
+①find(key) 
 
 若找到则返回该元素迭代器（=指针），否则返回迭代器end()
+
+②count(key)
+
+count()方法返回值是一个整数，1表示有这个元素，0表示没有这个元素。
 
 6.迭代器
 
@@ -529,4 +535,178 @@ xxxiii
 	    
 	    cout<<result<<endl;
 	}
+
+
+
+# 链表章节
+## 1.两个链表首个公共结点问题
+### 问题描述
+输入两个链表，找出它们的第一个公共节点。
+
+如下面的两个链表：
+
+![](E:/笔记用图/上机笔记/1.png)
+
+### 方法1：双指针各自遍历，浪漫相遇
+**是很经典的相遇问题的解法**
+
+**走过自己的路，再走一遍对方走的路，一定会相遇！**
+
+我们使用两个指针 node1，node2 分别指向两个链表 headA，headB 的头结点，然后同时分别逐结点遍历，当 node1 到达链表 headA 的末尾时，重新定位到链表 headB 的头结点；当 node2 到达链表 headB 的末尾时，重新定位到链表 headA 的头结点。
+
+这样，当它们相遇时，所指向的结点就是第一个公共结点。
+
+	class Solution {
+	public:
+	    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+	        ListNode *node1 = headA;
+	        ListNode *node2 = headB;
+	        
+	        while (node1 != node2) {
+	            node1 = node1 != NULL ? node1->next : headB;
+	            node2 = node2 != NULL ? node2->next : headA;
+	        }
+	        return node1;
+	    }
+	};
+
+图解链接：[https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/solution/shuang-zhi-zhen-fa-lang-man-xiang-yu-by-ml-zimingm/](https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/solution/shuang-zhi-zhen-fa-lang-man-xiang-yu-by-ml-zimingm/)
+
+复杂度分析:
+
+时间复杂度：O(M+N)。
+
+空间复杂度：O(1)。
+### 方法2：尾部对齐
+思路：公共结点以及之后的结点都是相同的，所以尾部对齐之后（**事实上是尾部对齐，然后调整长的链表的指针到短链表的头对齐位置，这样两个指针到尾部的距离相同**），就可以各自走相同的步数到达第一个相同结点。
+
+直接给出我自己写的代码
+
+	/**
+	 * Definition for singly-linked list.
+	 * struct ListNode {
+	 *     int val;
+	 *     ListNode *next;
+	 *     ListNode(int x) : val(x), next(NULL) {}
+	 * };
+	 **/
+	class Solution {
+	public:
+	    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+	        ListNode* temp1=headA;
+	        ListNode* temp2=headB;
+	
+	        int length1=0;
+	        int length2=0;
+	
+	        while(temp1 != NULL)
+	        {
+	            length1++;
+	            temp1=temp1->next;
+	        }
+	
+	        while(temp2 != NULL)
+	        {
+	            length2++;
+	            temp2=temp2->next;
+	        }
+	
+	        temp1=headA;
+	        temp2=headB;
+	
+	        if(length1<=length2)
+	        {
+	            int counter=length2-length1;
+	            while(counter)
+	            {
+	                temp2=temp2->next;
+	                counter--;
+	            }
+	        }
+	
+	        else
+	        {
+	            int counter=length1-length2;
+	            while(counter)
+	            {
+	                temp1=temp1->next;
+	                counter--;
+	            }
+	        }
+	
+	        while(temp1 != temp2 && temp1!=NULL && temp2!=NULL)
+	        {
+	            temp1=temp1->next;
+	            temp2=temp2->next;
+	        }
+	        if(temp1==NULL || temp2==NULL)return NULL;
+	        return temp1;
+	    }
+	};
+
+## 2.含随机指针random的链表的拷贝（Leetcode）
+### 问题描述：
+给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
+
+构造这个链表的 深拷贝。 深拷贝应该正好由 n 个 全新 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 next 指针和 random 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。
+
+例如，如果原链表中有 X 和 Y 两个节点，其中 X.random --> Y 。那么在复制链表中对应的两个节点 x 和 y ，同样有 x.random --> y 。
+
+返回复制链表的头节点。
+
+用一个由 n 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 [val, random_index] 表示：
+
+val：一个表示 Node.val 的整数。
+random_index：随机指针指向的节点索引（范围从 0 到 n-1）；如果不指向任何节点，则为  null 。
+你的代码 只 接受原链表的头节点 head 作为传入参数。
+
+![](E:/笔记用图/上机笔记/2.png)
+
+输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+
+输出：[[7,null],[13,0],[11,4],[10,2],[1,0]]
+
+### Leetcode官方题解
+本题要求我们对一个特殊的链表进行深拷贝。如果是普通链表，我们可以直接按照遍历的顺序创建链表节点。而本题中因为随机指针的存在，当我们拷贝节点时，「当前节点的随机指针指向的节点」可能还没创建，因此我们需要变换思路。**一个可行方案是，我们利用回溯的方式，让每个节点的拷贝操作相互独立。**对于**当前节点，我们首先要进行拷贝，然后我们进行「当前节点的后继节点」和「当前节点的随机指针指向的节点」拷贝**，拷贝完成后将创建的新节点的指针返回，即可完成当前节点的两指针的赋值。
+
+具体地，我们**用哈希表记录每一个节点对应新节点的创建情况**。遍历该链表的过程中，我们**检查「当前节点的后继节点」和「当前节点的随机指针指向的节点」的创建情况**。如果这两个节点中的任何一个节点的新节点没有被创建，我们都立刻递归地进行创建。当我们拷贝完成，回溯到当前层时，我们即可完成当前节点的指针赋值。注意一个节点可能被多个其他节点指向，因此我们可能递归地多次尝试拷贝某个节点，为了防止重复拷贝，我们需要首先检查当前节点是否被拷贝过，如果已经拷贝过，我们可以直接从哈希表中取出拷贝后的节点的指针并返回即可。
+
+在实际代码中，我们需要特别判断给定节点为空节点的情况。
+
+复杂度分析
+
+时间复杂度：O(n)，其中 n 是链表的长度。对于每个节点，我们至多访问其「后继节点」和「随机指针指向的节点」各一次，均摊每个点至多被访问两次。
+
+空间复杂度：O(n)，其中 n 是链表的长度。为哈希表的空间开销。
+
+
+### 个人理解
+带了random指针的链表，其实已经**趋向于一种有向图了**，但特殊的又是不看random，它就是一个链表
+
+而遍历图的时候，会**用visited数组记录访问情况，以免重复访问**，这其实就是一种用哈希表的思想。
+
+类比visited数组：此题中，是要对列表进行拷贝，**有了random指针，就会有重复创建结点的问题** 
+
+**所以用哈希表记录下原链表结点与拷贝后结点的映射关系，以免重复创建，浪费时间（空间换时间）**
+
+### 官方代码
+因为用到了递归回溯思想，对每个结点的判断、创建操作都是相同的，且独立的，不会存在重复计算（**因为用了哈希表映射**），所以可以**直接用递归写代码！！！**
+
+	class Solution {
+	public:
+	    unordered_map<Node*, Node*> cachedNode;
+	
+	    Node* copyRandomList(Node* head) {
+	        if (head == nullptr) {
+	            return nullptr;
+	        }
+	        if (!cachedNode.count(head)) {
+	            Node* headNew = new Node(head->val);
+	            cachedNode[head] = headNew;
+	            headNew->next = copyRandomList(head->next);
+	            headNew->random = copyRandomList(head->random);
+	        }
+	        return cachedNode[head];
+	    }
+	};
 
