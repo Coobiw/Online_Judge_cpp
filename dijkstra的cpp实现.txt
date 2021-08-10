@@ -1,0 +1,86 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        map<int,map<int,int>>neighbor_map;
+        for(vector<vector<int>>::iterator it=times.begin();it!=times.end();it++)
+        {
+            neighbor_map[(*it)[0]][(*it)[1]]=(*it)[2];
+        }//建立邻接表，空间复杂度O(e)，e为边的个数
+        set<int>set1;
+        set<int>set2;
+        for(int i=1;i<=n;i++)
+        {
+            if(i!=k)set2.insert(i);
+        }
+
+        //存储单源结点k到其他结点的最短距离  空间复杂度O(n) n为结点个数
+        map<int,int>distance_map;
+
+        while(!set2.empty())
+        {
+            int min=101;
+            int min_node=0;
+            //计算集合set2中结点经过确定集set1中结点到达或直接到达单源结点k的最短距离
+            //此处采用的是暴力计算比较的方法，由于对STL不熟，难以自定义三元组的优先队列，故未采用
+            //也正因为未采用优先队列的方法，这里的时间复杂度比较高，应该有O(n^2) n为结点个数
+            for(set<int>::iterator it2=set2.begin();it2!=set2.end();it2++)
+            {
+                if(set1.size()==0)
+                {
+                    int distance;
+                    if(neighbor_map[k].count(*it2)!=0)
+                        distance = neighbor_map[k][*it2];
+                    else
+                        continue;
+                    if(distance < min){
+                        min=distance;
+                        min_node=*it2;
+                    }
+                }
+                else
+                {
+                    if(neighbor_map[k].count(*it2)!=0)
+                    {
+                        if(neighbor_map[k][*it2]<min)
+                        {
+                            min=neighbor_map[k][*it2];
+                            min_node=*it2;
+                        }
+                    }
+                    for(set<int>::iterator it1=set1.begin();it1!=set1.end();it1++)
+                    {
+                        if(neighbor_map[*it1].count(*it2)!=0)
+                        {
+                            if(neighbor_map[*it1][*it2]+distance_map[*it1]<min)
+                            {
+                                min=neighbor_map[*it1][*it2]+distance_map[*it1];
+                                min_node=*it2;
+                            }
+                        }
+                    }
+                }
+            }
+            if(min_node==0 and min==101)return -1;
+            set2.erase(min_node);
+            set1.insert(min_node);
+            distance_map[min_node]=min;
+
+            //更新单源结点k到确定集set1中的结点的最短距离，即更新distance_map
+            //时间复杂度O（n），n为结点个数
+            for(set<int>::iterator it1=set1.begin();it1!=set1.end();it1++)
+            {
+                if(neighbor_map[min_node].count(*it1)!=0)
+                {
+                    if(neighbor_map[min_node][*it1]+min < distance_map[*it1])
+                        distance_map[*it1]=neighbor_map[min_node][*it1]+min;
+                }
+            }
+        }
+        int maxium=-1;
+        for(map<int,int>::iterator it3=distance_map.begin();it3!=distance_map.end();it3++)
+        {
+            if(it3->second > maxium)maxium=it3->second;
+        }
+        return maxium;
+    }
+};
