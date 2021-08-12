@@ -519,7 +519,41 @@ edge[n][n]表示边
 	    }
 	};
 
-### 应用3：等差数列划分（Leetcode）
+### 应用3：最长回文子序列
+#### 回文子序列性质
+1. 对于一个子序列而言，如果它是回文子序列，并且长度大于 22，那么将它首尾的两个字符去除之后，它仍然是个回文子序列。
+
+2. 最长回文子序列问题可以转化为**逆序字符串与原字符串的最长相同子序列问题**
+
+#### 根据性质2，直接编程实现
+#### 根据性质1，进行动态规划分析
+![](../3.png)
+
+#### 动态规划cpp代码
+	class Solution {
+	public:
+	    int longestPalindromeSubseq(string s) {
+	        int n = s.length();
+	        vector<vector<int>> dp(n, vector<int>(n));
+	        for (int i = n - 1; i >= 0; i--) {
+	            dp[i][i] = 1;
+	            char c1 = s[i];
+	            for (int j = i + 1; j < n; j++) {
+	                char c2 = s[j];
+	                if (c1 == c2) {
+	                    dp[i][j] = dp[i + 1][j - 1] + 2;
+	                } else {
+	                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+	                }
+	            }
+	        }
+	        return dp[0][n - 1];
+	    }
+	};
+
+
+
+### 应用4：等差数列划分（Leetcode）
 #### 题目描述：
 如果一个数列**至少有三个元素**，并且任意两个相邻元素之差相同，则称该数列为等差数列。
 
