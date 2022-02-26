@@ -1,5 +1,12 @@
 # STL的一些应用
-## STL vector
+## STL sort（#include<algorithm>)
+sort(起始地址，终止地址，排序方式）
+
+排序方式应该是一个返回bool型的排序函数的函数名（如果为true，则比较函数第一个参数会排在第二个参数前面，默认值default是升序方式）
+
+	比如对a[n]排序
+	sort(a,a+n)
+## STL vector（#include<vector>)
 ### 初始化
 C++的初始化方法很多，各种初始化方法有一些不同。
 
@@ -35,6 +42,136 @@ ilist 初始化为列表中元素的拷贝，列表中元素必须与ilist的元
 4. vector.size()和vector.length()返回长度
 5. vector.insert(pos,number,value)
 6. vector.erase(pos,number)
+
+## STL stack(#include<stack>)
+### 初始化
+	stack<tyname> name
+### 方法
+	stack.empty()
+	stack.size()
+	stack.push()栈顶进
+	stack.pop()栈顶出
+	stack.top()获得栈顶元素
+## STL queue（#include<queue>)
+### 初始化
+	queue<typename> name
+### 方法
+	queue.empty()
+	queue.size()
+	queue.push()队尾进
+	queue.pop()队头出
+	queue.front()获得头部元素
+	queue.back()获得尾部元素
+## STL string(#include<string>,#include<cstring>)
+### 一、初始化
+1、默认初始化
+
+	string s; //s是一个空串
+
+2.使用字符串字面值初始化
+
+	string s1=“hello world”; //拷贝初始化
+	string s2(“hello world”); //直接初始化
+	注意：s1、s2的内容不包括’\0’
+
+3.使用其他字符串初始化
+
+	string s2=s1; //拷贝初始化，s1是string类对象
+	string s2(s1); //直接初始化，s1是string类对象
+
+4.使用单个字符初始化
+
+	string s(10, ‘a’); //直接初始化，s的内容是aaaaaaaaaa
+### 二、方法
+1.insert
+
+	s.insert(pos,str)//在s的pos位置插入str
+	s.insert(s.it,ch)在s的it指向位置前面插入一个字符ch，返回新插入的位置的迭代器
+
+2.erase
+
+	
+	int main ()
+	{
+	  std::string str ("This is an example sentence.");
+	  std::cout << str << '\n';
+	                          // "This is an example sentence."
+	  str.erase (10,8);       //            ^^^^^^^^
+	  //直接指定删除的字符串位置第十个后面的8个字符
+	  std::cout << str << '\n';
+	                            // "This is an sentence."
+	  str.erase (str.begin()+9);//           ^
+	  //删除迭代器指向的字符
+	  std::cout << str << '\n';
+	                            // "This is a sentence."
+	                            //       ^^^^^
+	  str.erase (str.begin()+5, str.end()-9);
+	  //删除迭代器范围的字符
+	  std::cout << str << '\n';
+	                            // "This sentence."
+	  return 0;
+	}
+
+3.substr(pos,n)
+	
+	int main()
+	{
+	    ios::sync_with_stdio(false);
+	    string s="abcdefg";
+	
+	    //s.substr(pos1,n)返回字符串位置为pos1后面的n个字符组成的串
+	    string s2=s.substr(1,5);//bcdef
+	
+	    //s.substr(pos)//得到一个pos到结尾的串
+	    string s3=s.substr(4);//efg
+	
+	    return 0;
+	}
+
+4.find(substring)
+
+**find函数主要是查找一个字符串是否在调用的字符串中出现过，大小写敏感。**
+
+**如果查找不到，返回std::npos.**
+
+## STL map(#include<map>)
+1.声明一个散列表映射： 
+
+map<key的数据类型，value的数据类型> 映射表名
+
+2.状态判断
+
+.empty() 和.size()
+
+3.元素增添和删除
+
+增加：insert(pair<数据类型，数据类型>(key,value))
+
+删除：erase(key)
+
+4.访问：
+
+①mymap[key] ②mymap.at(key) ③迭代器
+
+5.元素操作
+
+清空：clear()
+
+查找：
+
+①find(key) 
+
+若找到则返回该元素迭代器（=指针），否则返回迭代器end()
+
+②count(key)
+
+count()方法返回值是一个整数，1表示有这个元素，0表示没有这个元素。
+
+6.迭代器
+
+	for(it = mymap.begin();it!=mymap.end();it++)
+	访问key: it->first
+	访问value: it->second
 ## STL functional里的function
 ### 概述
 类模版std::function是一种通用、多态的函数封装。std::function的实例可以对**任何可以调用的目标实体**进行存储、复制、和调用操作，这些目标实体**包括普通函数、Lambda表达式、函数指针、以及其它函数对象等**。std::function对象是对C++中现有的可调用实体的一种类型安全的包裹（我们知道像函数指针这类可调用实体，是类型不安全的）。
@@ -362,78 +499,7 @@ edge[n][n]表示边
 	    }
 	};
 
-## 字符串处理
-### STL string
-#### 一、初始化
-1、默认初始化
 
-	string s; //s是一个空串
-
-2.使用字符串字面值初始化
-
-	string s1=“hello world”; //拷贝初始化
-	string s2(“hello world”); //直接初始化
-	注意：s1、s2的内容不包括’\0’
-
-3.使用其他字符串初始化
-
-	string s2=s1; //拷贝初始化，s1是string类对象
-	string s2(s1); //直接初始化，s1是string类对象
-
-4.使用单个字符初始化
-
-	string s(10, ‘a’); //直接初始化，s的内容是aaaaaaaaaa
-#### 二、方法
-1.insert
-
-	s.insert(pos,str)//在s的pos位置插入str
-	s.insert(s.it,ch)在s的it指向位置前面插入一个字符ch，返回新插入的位置的迭代器
-
-2.erase
-
-	
-	int main ()
-	{
-	  std::string str ("This is an example sentence.");
-	  std::cout << str << '\n';
-	                          // "This is an example sentence."
-	  str.erase (10,8);       //            ^^^^^^^^
-	  //直接指定删除的字符串位置第十个后面的8个字符
-	  std::cout << str << '\n';
-	                            // "This is an sentence."
-	  str.erase (str.begin()+9);//           ^
-	  //删除迭代器指向的字符
-	  std::cout << str << '\n';
-	                            // "This is a sentence."
-	                            //       ^^^^^
-	  str.erase (str.begin()+5, str.end()-9);
-	  //删除迭代器范围的字符
-	  std::cout << str << '\n';
-	                            // "This sentence."
-	  return 0;
-	}
-
-3.substr(pos,n)
-	
-	int main()
-	{
-	    ios::sync_with_stdio(false);
-	    string s="abcdefg";
-	
-	    //s.substr(pos1,n)返回字符串位置为pos1后面的n个字符组成的串
-	    string s2=s.substr(1,5);//bcdef
-	
-	    //s.substr(pos)//得到一个pos到结尾的串
-	    string s3=s.substr(4);//efg
-	
-	    return 0;
-	}
-
-4.find(substring)
-
-**find函数主要是查找一个字符串是否在调用的字符串中出现过，大小写敏感。**
-
-**如果查找不到，返回std::npos.**
 
 ## 动态规划 Dynamic Programming
 ### 适用
