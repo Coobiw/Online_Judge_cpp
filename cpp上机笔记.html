@@ -392,6 +392,27 @@ queue.front()获得头部元素
 queue.back()获得尾部元素
 </code></pre>
 
+<h2>STL priority_queue</h2>
+<h3>初始化</h3>
+<pre><code>priority_queue&lt;int&gt; name # 大根堆
+priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt;&gt; # 小根堆
+priority_queue&lt;Type, Container, Functional&gt;
+</code></pre>
+
+<blockquote>
+<p>Type 就是数据类型，Container 就是容器类型（Container必须是用数组实现的容器，比如vector,deque等等，但不能用 list。STL里面默认用的是vector），Functional 就是比较的方式，当需要用自定义的数据类型时才需要传入这三个参数，使用基本数据类型时，只需要传入数据类型，默认是大顶堆</p>
+</blockquote>
+<h3>方法</h3>
+<blockquote>
+<ul>
+<li>top 访问队头元素</li>
+<li>empty 队列是否为空</li>
+<li>size 返回队列内元素个数</li>
+<li>push 插入元素到队尾 (并排序)</li>
+<li>emplace 原地构造一个元素并插入队列</li>
+<li>pop 弹出队头元素</li>
+</ul>
+</blockquote>
 <h2>STL string(#include<string>,#include<cstring>)</h2>
 <h3>一、初始化</h3>
 <p>1、默认初始化</p>

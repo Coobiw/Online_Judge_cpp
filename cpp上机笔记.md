@@ -62,6 +62,21 @@ ilist 初始化为列表中元素的拷贝，列表中元素必须与ilist的元
 	queue.pop()队头出
 	queue.front()获得头部元素
 	queue.back()获得尾部元素
+## STL priority_queue
+### 初始化
+	priority_queue<int> name # 大根堆
+	priority_queue<int,vector<int>,greater<int>> # 小根堆
+	priority_queue<Type, Container, Functional>
+
+>Type 就是数据类型，Container 就是容器类型（Container必须是用数组实现的容器，比如vector,deque等等，但不能用 list。STL里面默认用的是vector），Functional 就是比较的方式，当需要用自定义的数据类型时才需要传入这三个参数，使用基本数据类型时，只需要传入数据类型，默认是大顶堆
+
+### 方法
+>- top 访问队头元素
+>- empty 队列是否为空
+>- size 返回队列内元素个数
+>- push 插入元素到队尾 (并排序)
+>- emplace 原地构造一个元素并插入队列
+>- pop 弹出队头元素
 ## STL string(#include<string>,#include<cstring>)
 ### 一、初始化
 1、默认初始化
