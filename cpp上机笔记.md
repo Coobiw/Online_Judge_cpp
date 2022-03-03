@@ -77,6 +77,47 @@ ilist 初始化为列表中元素的拷贝，列表中元素必须与ilist的元
 >- push 插入元素到队尾 (并排序)
 >- emplace 原地构造一个元素并插入队列
 >- pop 弹出队头元素
+
+## STL deque 双端队列
+deque容器为一个给定类型的元素进行线性处理，**像向量一样，它能够快速地随机访问任一个元素，并且能够高效地插入和删除容器的尾部元素**。但它又与vector不同，deque支持高效插入和删除容器的头部元素，因此也叫做双端队列。deque类常用的函数如下。
+### 初始化
+	deque():创建一个空deque
+	
+	deque(int nSize):创建一个deque,元素个数为nSize
+	
+	deque(int nSize,const T& t):创建一个deque,元素个数为nSize,且值均为t
+	
+	deque(const deque &):复制构造函数
+
+### 方法
+>- .size() 返回大小
+>- .empty() 
+>- .clear()
+	
+	(2)    增加函数
+	
+	void push_front(const T& x):双端队列头部增加一个元素X
+	
+	void push_back(const T& x):双端队列尾部增加一个元素x
+	
+	iterator insert(iterator it,const T& x):双端队列中某一元素前增加一个元素x
+	
+	void insert(iterator it,int n,const T& x):双端队列中某一元素前增加n个相同的元素x
+	
+	void insert(iterator it,const_iterator first,const_iteratorlast):双端队列中某一元素前插入另一个相同类型向量的[forst,last)间的数据
+	
+	(3)    删除函数
+	
+	Iterator erase(iterator it):删除双端队列中的某一个元素
+	
+	Iterator erase(iterator first,iterator last):删除双端队列中[first,last）中的元素
+	
+	void pop_front():删除双端队列中最前一个元素
+	
+	void pop_back():删除双端队列中最后一个元素
+	
+	void clear():清空双端队列中最后一个元素
+
 ## STL string(#include<string>,#include<cstring>)
 ### 一、初始化
 1、默认初始化

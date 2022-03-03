@@ -413,6 +413,51 @@ priority_queue&lt;Type, Container, Functional&gt;
 <li>pop 弹出队头元素</li>
 </ul>
 </blockquote>
+<h2>STL deque 双端队列</h2>
+<p>deque容器为一个给定类型的元素进行线性处理，<strong>像向量一样，它能够快速地随机访问任一个元素，并且能够高效地插入和删除容器的尾部元素</strong>。但它又与vector不同，deque支持高效插入和删除容器的头部元素，因此也叫做双端队列。deque类常用的函数如下。</p>
+<h3>初始化</h3>
+<pre><code>deque():创建一个空deque
+
+deque(int nSize):创建一个deque,元素个数为nSize
+
+deque(int nSize,const T&amp; t):创建一个deque,元素个数为nSize,且值均为t
+
+deque(const deque &amp;):复制构造函数
+</code></pre>
+
+<h3>方法</h3>
+<blockquote>
+<ul>
+<li>.size() 返回大小</li>
+<li>.empty() </li>
+<li>.clear()</li>
+</ul>
+</blockquote>
+<pre><code>(2)    增加函数
+
+void push_front(const T&amp; x):双端队列头部增加一个元素X
+
+void push_back(const T&amp; x):双端队列尾部增加一个元素x
+
+iterator insert(iterator it,const T&amp; x):双端队列中某一元素前增加一个元素x
+
+void insert(iterator it,int n,const T&amp; x):双端队列中某一元素前增加n个相同的元素x
+
+void insert(iterator it,const_iterator first,const_iteratorlast):双端队列中某一元素前插入另一个相同类型向量的[forst,last)间的数据
+
+(3)    删除函数
+
+Iterator erase(iterator it):删除双端队列中的某一个元素
+
+Iterator erase(iterator first,iterator last):删除双端队列中[first,last）中的元素
+
+void pop_front():删除双端队列中最前一个元素
+
+void pop_back():删除双端队列中最后一个元素
+
+void clear():清空双端队列中最后一个元素
+</code></pre>
+
 <h2>STL string(#include<string>,#include<cstring>)</h2>
 <h3>一、初始化</h3>
 <p>1、默认初始化</p>
