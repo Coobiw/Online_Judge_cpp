@@ -128,7 +128,20 @@ deque容器为一个给定类型的元素进行线性处理，**像向量一样�
 	p1.first;                   // 返回对象p1中名为first的公有数据成员
 	p1.second;                 // 返回对象p1中名为second的公有数据成员
 
+## STL set
+### 常用方法
 
+clear()   　　     ,删除set容器中的所有的元素
+
+empty() 　　　,判断set容器是否为空
+
+max_size() 　 ,返回set容器可能包含的元素最大个数
+
+size() 　　　　 ,返回当前set容器中的元素个数
+
+insert() 插入一个元素
+
+count() 返回0/1，看集合里有没有（因为集合自带去重，所以最大返回1）
 ## STL string(#include<string>,#include<cstring>)
 ### 一、初始化
 1、默认初始化
